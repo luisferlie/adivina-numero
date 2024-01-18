@@ -1,8 +1,10 @@
 //inicializar aplicacion
+//TODO: CAMBIAR A INITaPP()
 const mensajeInicial = 'Empieza a adivinar...'
-
+const SCORE = 20
 let score = 20
 let highscore = 0
+localStorage.setItem('highScore',0)
 const numMin = 1
 const numMax = 20
 let secretNumber = Math.floor(Math.random() * numMax) + numMin
@@ -22,6 +24,7 @@ scoreField.textContent = score
 const highScoreField = document.querySelector('.highscore')
 highScoreField.textContent = highscore
 secretNumberField.textContent = secretNumber
+//TODO:persistencia del highscore
 
 //funcionalidad
 
@@ -44,20 +47,32 @@ function adivinar() {
     checkButton.disabled = true
     if (score > highscore) {
       highscore = score
+      console.log(highscore)
+      localStorage.setItem('highScore',score)
       highScoreField.textContent = highscore
     }
-    document.body.style.backgroundColor = 'green'
+    document.body.style.colorolor = 'green'
   }
 }
-againButton.addEventListener('click', again)
+function initApp() {
+  highscore = Number(localStorage.getItem('highScore'))
+  secretNumberField.style.backgroundColor = 'green'
+  secretNumberField.style.borderRadius = '50%'
+  secretNumberField.style.fontSize = '4rem'
 
-function again() {
+  secretNumberField.style.color = 'white'
+  messageField.textContent = mensajeInicial
   document.body.style.backgroundColor = 'black'
-  let score = 20
   
+  score = SCORE
   scoreField.textContent = score
   highScoreField.textContent = highscore
   secretNumber = Math.floor(Math.random() * numMax) + numMin
   secretNumberField.textContent = secretNumber
   checkButton.disabled = false
+}
+
+againButton.addEventListener('click', again)
+function again() {
+  initApp()
 }
